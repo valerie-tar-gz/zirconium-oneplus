@@ -35,6 +35,21 @@ toggle-user-motd:
     touch "${TARGET}"
     echo "Disabled the MOTD"
 
+toggle-autorotation:
+    #!/usr/bin/env bash
+
+    if systemctl is-enabled --quiet --user iio-niri ; then
+        systemctl disable --now --user iio-niri.service
+        systemctl mask --now --user iio-niri.service
+        echo "Disabled autorotation"
+        exit 0
+    else
+        systemctl unmask --user iio-niri.service
+        systemctl enable --now --user iio-niri.service
+        echo "Enabled autorotation"
+        exit 0
+    fi
+
 preinstalled-flatpaks:
     #!/usr/bin/env bash
     flatpak preinstall --reinstall
