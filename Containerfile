@@ -1,5 +1,6 @@
 FROM scratch AS ctx
 COPY build_files /build
+COPY cosign.pub /files/etc/pki/containers/zirconium.pub
 
 FROM ghcr.io/zirconium-dev/zirconium:latest
 
