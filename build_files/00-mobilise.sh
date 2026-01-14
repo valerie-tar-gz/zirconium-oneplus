@@ -8,10 +8,10 @@ dnf -y copr enable pocketblue/extra
 
 # Files
 
-cp -arfT fwload/usr /usr
+cp -arfT /files/fwload/usr /usr
 
-cp -arfT usbnet/etc /etc
-cp -arfT usbnet/usr /usr
+cp -arfT /files/usbnet/etc /etc
+cp -arfT /files/usbnet/usr /usr
 
 # Qualcomm tools and libs
 
