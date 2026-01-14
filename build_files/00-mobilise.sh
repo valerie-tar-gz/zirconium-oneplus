@@ -65,13 +65,19 @@ dnf -y install \
 # Kernel
 
 mkdir /boot/dtb
-dnf -y remove \
-    kernel \
-    kernel-core \
-    kernel-modules \
-    kernel-modules-core
-rm -rf /usr/lib/modules/*
+
+for pkg in kernel kernel-core kernel-modules kernel-modules-core; do
+  rpm --erase $pkg --nodeps
+done
+
+pushd /usr/lib/kernel/install.d
+printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
+printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
+chmod +x  05-rpmostree.install 50-dracut.install
+popd
+
 dnf -y install --setopt=tsflags=noscripts kernel kernel-modules-extra
+
 rm -rf /boot/dtb
 
 dnf -y copr disable pocketblue/sdm845
@@ -79,7 +85,7 @@ dnf -y copr disable pocketblue/common
 dnf -y copr disable pocketblue/extra
 
 KERNEL_VERSION="$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)"
-depmod "${KERNEL_VERSION}"
+depmod -a "$(ls -1 /lib/modules/ | tail -1)"
 export DRACUT_NO_XATTR=1
 dracut --no-hostonly --kver "$KERNEL_VERSION" --reproducible --zstd -v --add ostree -f "/usr/lib/modules/$KERNEL_VERSION/initramfs.img"
 chmod 0600 "/usr/lib/modules/${KERNEL_VERSION}/initramfs.img"
