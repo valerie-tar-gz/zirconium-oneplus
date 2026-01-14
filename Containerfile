@@ -1,4 +1,5 @@
 FROM scratch AS ctx
+COPY build_files /build
 
 FROM ghcr.io/zirconium-dev/zirconium:latest
 
