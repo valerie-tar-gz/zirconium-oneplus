@@ -59,8 +59,8 @@ dnf -y install \
     buffyboard \
     dnsmasq
 
-systemctl enable \
-    msm-modem-uim-selection.service
+#systemctl enable \
+#    msm-modem-uim-selection.service
 
 # Kernel
 
