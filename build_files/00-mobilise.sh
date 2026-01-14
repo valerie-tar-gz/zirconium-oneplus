@@ -71,7 +71,7 @@ dnf -y remove \
     kernel-modules \
     kernel-modules-core
 rm -rf /usr/lib/modules/*
-dnf -y install kernel kernel-modules-extra
+dnf -y install --setopt=tsflags=noscripts kernel kernel-modules-extra
 rm -rf /boot/dtb
 
 dnf -y copr disable pocketblue/sdm845
