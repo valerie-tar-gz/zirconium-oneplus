@@ -76,7 +76,7 @@ printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
 chmod +x  05-rpmostree.install 50-dracut.install
 popd
 
-dnf -y install --setopt=tsflags=noscripts kernel kernel-modules-extra
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:zirconium:packages install kernel kernel-modules-extra
 
 rm -rf /boot/dtb
 
