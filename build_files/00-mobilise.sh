@@ -72,6 +72,9 @@ for pkg in kernel kernel-core kernel-modules kernel-modules-core; do
   rpm --erase $pkg --nodeps
 done
 
+rm -rf /usr/lib/modules
+mkdir /usr/lib/modules
+
 pushd /usr/lib/kernel/install.d
 printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
 printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
