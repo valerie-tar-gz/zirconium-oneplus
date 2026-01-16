@@ -6,7 +6,7 @@ dnf -y copr enable pocketblue/sdm845
 dnf -y copr enable pocketblue/common
 dnf -y copr enable pocketblue/extra
 
-run dnf repolist
+dnf repolist
 
 # Files
 
