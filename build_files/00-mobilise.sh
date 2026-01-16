@@ -78,7 +78,7 @@ printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
 chmod +x  05-rpmostree.install 50-dracut.install
 popd
 
-dnf -y install kernel kernel-modules-extra --repo copr:copr.fedorainfracloud.org:pocketblue:sdm845
+dnf -y install kernel kernel-modules-extra --repo copr:copr.fedorainfracloud.org:pocketblue:sdm845 --setopt=tsflags=noscripts
 
 rm -rf /boot/dtb
 
