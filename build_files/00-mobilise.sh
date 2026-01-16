@@ -6,6 +6,8 @@ dnf -y copr enable pocketblue/sdm845
 dnf -y copr enable pocketblue/common
 dnf -y copr enable pocketblue/extra
 
+run dnf repolist
+
 # Files
 
 #cp -arfT /files/fwload/usr /usr
