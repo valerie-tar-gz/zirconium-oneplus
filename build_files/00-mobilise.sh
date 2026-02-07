@@ -65,14 +65,20 @@ dnf -y install \
 # Kernel
 
 mkdir /boot/dtb
-dnf -y remove \
-    kernel \
-    kernel-core \
-    kernel-modules \
-    kernel-modules-core \
-    kernel-headers
-rm -rf /usr/lib/modules/*
-dnf -y install kernel kernel-modules-extra
+for pkg in kernel kernel-core kernel-modules kernel-modules-core; do
+  rpm --erase $pkg --nodeps
+done
+
+rm -rf /usr/lib/modules
+mkdir /usr/lib/modules
+
+pushd /usr/lib/kernel/install.d
+printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
+printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
+chmod +x  05-rpmostree.install 50-dracut.install
+popd
+
+dnf -y install kernel kernel-modules-extra --repo copr:copr.fedorainfracloud.org:pocketblue:sdm845 --setopt=tsflags=noscripts
 rm -rf /boot/dtb
 
 dnf -y copr disable pocketblue/sdm845
