@@ -2,6 +2,9 @@
 
 set -uexo pipefail
 
+dnf -y remove gdm dms-greeter
+dnf -y install gdm
+
 dnf -y copr enable pocketblue/sdm845
 dnf -y copr enable pocketblue/common
 dnf -y copr enable pocketblue/extra
@@ -84,9 +87,6 @@ rm -rf /boot/dtb
 dnf -y copr disable pocketblue/sdm845
 dnf -y copr disable pocketblue/common
 dnf -y copr disable pocketblue/extra
-
-dnf -y remove gdm dms-greeter
-dnf -y install gdm
 
 KERNEL_VERSION="$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)"
 depmod -a "$(ls -1 /lib/modules/ | tail -1)"
