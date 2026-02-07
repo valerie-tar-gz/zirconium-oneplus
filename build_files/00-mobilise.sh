@@ -10,10 +10,8 @@ dnf repolist
 
 # Files
 
-#cp -arfT /files/fwload/usr /usr
-
-#cp -arfT /files/usbnet/etc /etc
-#cp -arfT /files/usbnet/usr /usr
+cp -arfT files/etc /etc
+cp -arfT files/usr /usr
 
 # Qualcomm tools and libs
 
@@ -24,7 +22,7 @@ dnf -y install \
     qbootctl \
     rmtfs \
     qcom-firmware \
-    pil-squasher \
+    sdm845-fwload \
     pd-mapper \
     libssc \
     qrtr
@@ -61,28 +59,20 @@ dnf -y install \
     buffyboard \
     dnsmasq
 
-#systemctl enable \
-#    msm-modem-uim-selection.service
+systemctl enable \
+    msm-modem-uim-selection.service
 
 # Kernel
 
 mkdir /boot/dtb
-
-for pkg in kernel kernel-core kernel-modules kernel-modules-core; do
-  rpm --erase $pkg --nodeps
-done
-
-rm -rf /usr/lib/modules
-mkdir /usr/lib/modules
-
-pushd /usr/lib/kernel/install.d
-printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
-printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
-chmod +x  05-rpmostree.install 50-dracut.install
-popd
-
-dnf -y install kernel kernel-modules-extra --repo copr:copr.fedorainfracloud.org:pocketblue:sdm845 --setopt=tsflags=noscripts
-
+dnf -y remove \
+    kernel \
+    kernel-core \
+    kernel-modules \
+    kernel-modules-core \
+    kernel-headers
+rm -rf /usr/lib/modules/*
+dnf -y install kernel kernel-modules-extra
 rm -rf /boot/dtb
 
 dnf -y copr disable pocketblue/sdm845
