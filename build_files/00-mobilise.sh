@@ -10,8 +10,8 @@ dnf repolist
 
 # Files
 
-cp -arfT files/etc /etc
-cp -arfT files/usr /usr
+#cp -arfT files/etc /etc
+#cp -arfT files/usr /usr
 
 # Qualcomm tools and libs
 
